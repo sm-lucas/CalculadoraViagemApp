@@ -63,4 +63,44 @@ namespace CalculadoraViagemApp
                 }
             }
         }
+        static void CalcularViagem()
+        {
+            Console.Clear();
+            Console.WriteLine("--- Nova Simulação de Viagem ---");
+
+            Console.Write("Digite o destino da viagem: ");
+            string destino = Console.ReadLine();
+
+            Console.Write("Distância a ser percorrida (em km): ");
+            if (!double.TryParse(Console.ReadLine(), out double distancia) || distancia <= 0)
+            {
+                MostrarErro("Distância inválida.");
+                return;
+            }
+
+            Console.Write("Consumo médio do veículo (km por litro): ");
+            if (!double.TryParse(Console.ReadLine(), out double consumo) || consumo <= 0)
+            {
+                MostrarErro("Consumo inválido.");
+                return;
+            }
+
+            Console.Write("Preço do litro do combustível (ex: 5,79): ");
+            if (!decimal.TryParse(Console.ReadLine(), out decimal preco) || preco <= 0)
+            {
+                MostrarErro("Preço inválido.");
+                return;
+            }
+
+            // Cria o objeto e calcula automaticamente pelas propriedades
+            var novaViagem = new RelatorioViagem(destino, distancia, consumo, preco);
+            _historico.Add(novaViagem);
+
+            Console.WriteLine("\n=== RESULTADO DA SIMULAÇÃO ===");
+            Console.WriteLine($"Total de combustível necessário: {novaViagem.TotalLitros:F2} Litros");
+            Console.WriteLine($"Custo estimado do combustível: R$ {novaViagem.CustoTotal:F2}");
+            Console.WriteLine("\nRelatório salvo no histórico com sucesso!");
+
+            Console.ReadKey();
+        }
     }

@@ -103,4 +103,37 @@ namespace CalculadoraViagemApp
 
             Console.ReadKey();
         }
+        static void ExibirHistorico()
+        {
+            Console.Clear();
+            Console.WriteLine("--- Histórico de Viagens Calculadas ---");
+
+            if (!_historico.Any())
+            {
+                Console.WriteLine("Nenhuma simulação realizada ainda.");
+            }
+            else
+            {
+                foreach (var v in _historico)
+                {
+                    Console.WriteLine($"Destino: {v.Destino} | {v.Distancia}km | Custo: R$ {v.CustoTotal:F2}");
+                }
+
+                // Exibe uma métrica geral usando LINQ (Soma total acumulada)
+                decimal custoAcumulado = _historico.Sum(v => v.CustoTotal);
+                Console.WriteLine("\n-------------------------------------------");
+                Console.WriteLine($"Custo total de todas as viagens simuladas: R$ {custoAcumulado:F2}");
+            }
+
+            Console.WriteLine("\nPressione qualquer tecla para voltar.");
+            Console.ReadKey();
+        }
+
+        static void MostrarErro(string mensagem)
+        {
+            Console.WriteLine($"\n[ERRO] {mensagem} A operação foi cancelada.");
+            Console.ReadKey();
+        }
     }
+}
+    
